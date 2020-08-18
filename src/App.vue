@@ -1,8 +1,13 @@
 <template>
   <div id="app" class="container p-5">
-    <app-add-user></app-add-user>
-    <br /> <br />
-    <app-user-list :users="users"></app-user-list>
+    <div class="row">
+      <div class="col">
+        <app-add-user></app-add-user>
+      </div>
+      <div class="col">
+        <app-user-list :users="users"></app-user-list>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -11,6 +16,8 @@ import AppAddUser from './components/AddUser'
 import AppUserList from './components/UserList'
 
 export default {
+  methods: {
+  },
   name: 'App',
   components: {
     AppAddUser,
@@ -18,8 +25,20 @@ export default {
   },
   data() {
     return {
-      users: []
+      users: {}
     }
+  },
+  created() {
+    this.$http.get('/user.json', {
+      headers: {
+        Accept: "application/json"
+      }
+    })
+    .then( res => {
+      this.users = res.data;
+      console.log(res);
+    })
+    .catch( err => console.log(err) );
   }
 }
 </script>

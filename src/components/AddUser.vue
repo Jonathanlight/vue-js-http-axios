@@ -28,6 +28,18 @@ export default {
     trySubmit(e) {
       e.preventDefault();
 
+      this.$http.post('/user.json', {...this.form})
+        .then( res => {
+
+          console.log(res);
+
+          this.form = {
+            username: '',
+            email: ''
+          };
+        })
+        .catch( err => console.log(err) );
+
       console.log( {...this.form} );
     }
   },
